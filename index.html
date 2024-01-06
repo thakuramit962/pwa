@@ -21,7 +21,7 @@
       console.log(navigator);
       if (navigator.serviceWorker) {
         navigator.serviceWorker
-          .register("/sw.js")
+          .register("/app.js")
           .then((registration) => {
             console.log(
               "Service Worker registered with scope:",
