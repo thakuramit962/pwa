@@ -12,8 +12,42 @@
     <div class="container">
       <h1>PWA Demo</h1>
       <p>This is a simple Progressive Web App demo.</p>
+      <button id="installButton" style="display: none">Install App</button>
     </div>
 
     <script src="app.js"></script>
+    <script>
+      // Check if the browser supports service workers
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/sw.js")
+          .then((registration) => {
+            console.log(
+              "Service Worker registered with scope:",
+              registration.scope
+            );
+          })
+          .catch((error) => {
+            console.error("Service Worker registration failed:", error);
+          });
+      }
+
+      // Check if the app is installed
+      window.addEventListener("beforeinstallprompt", (event) => {
+        event.preventDefault();
+        const installButton = document.getElementById("installButton");
+        installButton.style.display = "block";
+
+        installButton.addEventListener("click", () => {
+          event.prompt();
+          installButton.style.display = "none";
+        });
+      });
+
+      // Check if the app is already installed
+      window.addEventListener("appinstalled", (event) => {
+        console.log("App installed successfully!", event);
+      });
+    </script>
   </body>
 </html>
